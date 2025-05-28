@@ -1,0 +1,79 @@
+# ===================================
+# React + Vite Client - .gitignore
+# ===================================
+
+# ===== Dependencies =====
+node_modules/
+.pnp
+.pnp.js
+
+# ===== Build Output =====
+dist/
+dist-ssr/
+build/
+
+# ===== Logs =====
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ===== Environment Variables =====
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.local
+
+# ===== Cache =====
+.cache/
+.parcel-cache/
+.vite/
+
+# ===== Testing =====
+coverage/
+.nyc_output/
+
+# ===== Editor Files =====
+# VSCode
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# ===== OS Files =====
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===== Temporary Files =====
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.tmp
+*.temp
+
+# ===== Storybook =====
+storybook-static/
+
+# ===== ESLint =====
+.eslintcache
+
+# ===== TypeScript =====
+*.tsbuildinfo
