@@ -27,10 +27,11 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [refreshSuccess, setRefreshSuccess] = useState(false);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
   const [layoutMode, setLayoutMode] = useState<LayoutMode>('comfortable');
 
-  const API_BASE_URL = 'http://localhost:4000/api';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
 
   // Load layout preference from localStorage
   useEffect(() => {
@@ -88,7 +89,7 @@ function App() {
     return source ? sourceMap[source] : null;
   };
 
-  // Toast notification system
+  // Toast notification system (for error messages only now)
   const showToast = useCallback((message: string, type: 'success' | 'error' = 'success') => {
     const id = Date.now().toString();
     const newToast: ToastMessage = { id, message, type };
@@ -121,6 +122,7 @@ function App() {
     try {
       if (isRefresh) {
         setRefreshing(true);
+        setRefreshSuccess(false);
       } else {
         setLoading(true);
       }
@@ -130,7 +132,11 @@ function App() {
       setError(null);
       
       if (isRefresh) {
-        showToast('URLs refreshed! ✨', 'success');
+        // Show success indicator
+        setRefreshSuccess(true);
+        setTimeout(() => {
+          setRefreshSuccess(false);
+        }, 2000);
       }
     } catch (err) {
       const errorMessage = 'Failed to fetch URLs. Make sure the server is running.';
@@ -141,7 +147,7 @@ function App() {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [showToast]);
+  }, [API_BASE_URL, showToast]);
 
   useEffect(() => {
     fetchUrls();
@@ -197,6 +203,17 @@ function App() {
 
   return (
     <div className="app">
+      {/* Refresh Indicator */}
+      {(refreshing || refreshSuccess) && (
+        <div className="refresh-indicator">
+          {refreshing ? (
+            <div className="refresh-spinner">🔄</div>
+          ) : (
+            <div className="refresh-success">✅</div>
+          )}
+        </div>
+      )}
+
       {/* Toast notifications */}
       <div className="toast-container">
         {toasts.map((toast) => (
