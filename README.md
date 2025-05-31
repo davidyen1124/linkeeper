@@ -1,16 +1,30 @@
 # 📎 URL Saver System
 
-A system that consists of a Telegram bot and a website to save and display URLs with previews.
+A comprehensive system that consists of a Telegram bot and a website to save and display URLs with intelligent source detection and tagging capabilities.
 
-## Features
+## ✨ Features
 
 - 🤖 **Telegram Bot**: Listen to messages and save URLs automatically
 - 🌐 **Web Interface**: Display saved URLs with beautiful previews
+- 🔍 **Smart Source Detection**: Automatically detect URLs from Facebook, Instagram, Threads, and YouTube
+- 🏷️ **Tag Support**: Add custom tags to organize your URLs
 - 📱 **Responsive Design**: Works on desktop and mobile devices
 - 🔄 **Real-time Updates**: Automatically refresh URL list
-- 🖼️ **URL Previews**: Show title, description, and images from URLs
+- 🖼️ **Rich URL Previews**: Show title, description, images, source badges, and tags
+- 🏗️ **Clean Architecture**: Well-structured codebase following Clean Architecture principles
 
-## Tech Stack
+## 🎯 Supported Platforms
+
+The system automatically detects URLs from the following platforms:
+
+- **Facebook**: Posts, videos, photos, events
+- **Instagram**: Posts, reels, stories, IGTV
+- **Threads**: Posts
+- **YouTube**: Videos, Shorts, playlists, channels
+
+When a URL from these platforms is detected, it's automatically tagged with the appropriate source.
+
+## 🛠️ Tech Stack
 
 ### Backend (Server)
 - **TypeScript** - Type-safe JavaScript
@@ -19,6 +33,7 @@ A system that consists of a Telegram bot and a website to save and display URLs 
 - **Telegraf** - Telegram bot framework
 - **Cheerio** - Web scraping for URL metadata
 - **Axios** - HTTP client
+- **Clean Architecture** - Domain-driven design pattern
 
 ### Frontend (Client)
 - **React** - UI library
@@ -26,7 +41,7 @@ A system that consists of a Telegram bot and a website to save and display URLs 
 - **Vite** - Build tool
 - **Axios** - HTTP client for API calls
 
-## Setup Instructions
+## 🚀 Setup Instructions
 
 ### Prerequisites
 - Node.js (v16 or higher)
@@ -91,39 +106,114 @@ npm run dev
 
 The web interface will be available at `http://localhost:5173`
 
-## Usage
+## 📱 Usage
 
 1. **Start the Telegram Bot**: Send `/start` to your bot in Telegram
-2. **Send URLs**: Send any URL to the bot, and it will be saved automatically
-3. **View URLs**: Open the web interface to see all saved URLs with previews
+2. **Send URLs**: Send any URL to the bot, and it will be saved automatically with source detection
+3. **View URLs**: Open the web interface to see all saved URLs with:
+   - Rich previews with images
+   - Source badges (Facebook, Instagram, Threads, YouTube)
+   - Custom tags
+   - Organized metadata
 4. **Refresh**: Click the refresh button or wait for automatic updates
 
-## API Endpoints
+## 🔧 API Endpoints
 
-- `GET /api/urls` - Get all saved URLs
-- `POST /api/urls` - Save a new URL
+### Add URL with Tags
+```http
+POST /api/urls
+Content-Type: application/json
 
-## Project Structure
+{
+  "url": "https://www.youtube.com/shorts/abc123",
+  "tags": ["youtube", "shorts", "entertainment"]
+}
+```
+
+### Get All URLs
+```http
+GET /api/urls
+```
+
+Returns URLs with source detection and tags:
+```json
+{
+  "id": "507f1f77bcf86cd799439011",
+  "url": "https://www.youtube.com/shorts/abc123",
+  "title": "Amazing Short Video",
+  "description": "Check out this amazing short video",
+  "image": "https://example.com/thumbnail.jpg",
+  "source": "youtube",
+  "tags": ["youtube", "shorts", "entertainment"],
+  "createdAt": "2023-12-07T10:30:00.000Z"
+}
+```
+
+## 📁 Project Structure (Clean Architecture)
 
 ```
-├── server/                 # Backend application
+├── server/                     # Backend application
 │   ├── src/
-│   │   ├── bot/           # Telegram bot logic
-│   │   ├── controllers/   # API controllers
-│   │   ├── models/        # Database models
-│   │   ├── routes/        # API routes
-│   │   └── index.ts       # Server entry point
+│   │   ├── application/        # Application layer (Use Cases)
+│   │   ├── domain/             # Domain layer (Entities, Services, Repositories)
+│   │   │   ├── entities/       # Domain entities
+│   │   │   ├── repositories/   # Repository interfaces
+│   │   │   └── services/       # Domain services
+│   │   ├── infrastructure/     # Infrastructure layer
+│   │   │   ├── config/         # Dependency injection
+│   │   │   ├── database/       # MongoDB implementations
+│   │   │   ├── services/       # Service implementations
+│   │   │   └── web/            # Controllers and routes
+│   │   ├── bot/                # Telegram bot
+│   │   ├── middleware/         # Express middleware
+│   │   ├── utils/              # Utilities
+│   │   └── index.ts            # Server entry point
 │   └── package.json
-├── client/                # Frontend application
+├── client/                     # Frontend application
 │   ├── src/
-│   │   ├── App.tsx        # Main React component
-│   │   ├── App.css        # Styles
-│   │   └── main.tsx       # React entry point
+│   │   ├── App.tsx            # Main React component with source badges
+│   │   ├── App.css            # Styles with tag and badge support
+│   │   └── main.tsx           # React entry point
 │   └── package.json
 └── README.md
 ```
 
-## Development
+## 🧪 Testing
+
+### Test URL Analysis
+```bash
+cd server
+npm run build
+node dist/test-youtube-analysis.js
+```
+
+### Test API with Different Platforms
+Use the provided `server/test-api.http` file to test various URL types:
+- Facebook posts and videos
+- Instagram posts and reels
+- YouTube videos and shorts
+- Threads posts
+
+## 🎨 Features Showcase
+
+### Smart Source Detection
+- 📘 **Facebook**: Detects posts, videos, photos, events
+- 📷 **Instagram**: Identifies posts, reels, stories, IGTV
+- 🧵 **Threads**: Recognizes posts
+- 📹 **YouTube**: Categorizes videos, shorts, playlists, channels
+
+### Tag Management
+- Add custom tags when saving URLs
+- Visual tag display with color variations
+- Organize content by topic or category
+
+### Beautiful UI
+- Source badges with platform colors
+- Interactive tag pills
+- Responsive card layout
+- Smooth animations and transitions
+
+## 🛠️ Development
 
 ### Server Development
 ```bash
@@ -141,7 +231,7 @@ npm run build   # Build for production
 npm run preview # Preview production build
 ```
 
-## Troubleshooting
+## 🔧 Troubleshooting
 
 ### Common Issues
 
@@ -149,12 +239,13 @@ npm run preview # Preview production build
 2. **Database connection error**: Ensure MongoDB is running and the connection string is correct
 3. **CORS errors**: Make sure both server and client are running on the specified ports
 4. **URL previews not loading**: Some websites may block scraping; this is normal
+5. **Source not detected**: Currently supports Facebook, Instagram, Threads, and YouTube URLs
 
 ### Logs
 
 Check the server console for detailed error messages and bot activity logs.
 
-## Contributing
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
@@ -162,6 +253,6 @@ Check the server console for detailed error messages and bot activity logs.
 4. Test thoroughly
 5. Submit a pull request
 
-## License
+## 📄 License
 
 This project is open source and available under the MIT License. 

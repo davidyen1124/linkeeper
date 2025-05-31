@@ -2,7 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import urlRoutes from './routes/urlRoutes';
+import { createUrlRoutes } from './infrastructure/web/routes/urlRoutes';
+import { DependencyContainer } from './infrastructure/config/DependencyContainer';
 import { startBot } from './bot/telegramBot';
 import logger from './utils/logger';
 import { requestLogger } from './middleware/requestLogger';
@@ -22,8 +23,11 @@ app.use(express.json());
 // Request logging middleware
 app.use(requestLogger);
 
+// Initialize dependency container
+const container = DependencyContainer.getInstance();
+
 // Routes
-app.use('/api/urls', urlRoutes);
+app.use('/api/urls', createUrlRoutes(container.urlController));
 
 // Health check endpoint
 app.get('/health', (req, res) => {

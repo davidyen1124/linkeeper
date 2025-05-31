@@ -1,0 +1,83 @@
+### Test URL Analysis with Facebook Post
+POST http://localhost:4000/api/urls
+Content-Type: application/json
+
+{
+  "url": "https://www.facebook.com/user/posts/123456789",
+  "tags": ["social", "facebook", "test"]
+}
+
+###
+
+### Test URL Analysis with Instagram Reel
+POST http://localhost:4000/api/urls
+Content-Type: application/json
+
+{
+  "url": "https://www.instagram.com/reel/ABC123XYZ/",
+  "tags": ["instagram", "reel", "video"]
+}
+
+###
+
+### Test URL Analysis with Threads Post
+POST http://localhost:4000/api/urls
+Content-Type: application/json
+
+{
+  "url": "https://threads.net/@username/post/123456",
+  "tags": ["threads", "social-media"]
+}
+
+###
+
+### Test URL Analysis with YouTube Video
+POST http://localhost:4000/api/urls
+Content-Type: application/json
+
+{
+  "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  "tags": ["youtube", "video", "music"]
+}
+
+###
+
+### Test URL Analysis with YouTube Short
+POST http://localhost:4000/api/urls
+Content-Type: application/json
+
+{
+  "url": "https://www.youtube.com/shorts/abc123def",
+  "tags": ["youtube", "shorts", "entertainment"]
+}
+
+###
+
+### Test URL Analysis with YouTube Short URL
+POST http://localhost:4000/api/urls
+Content-Type: application/json
+
+{
+  "url": "https://youtu.be/dQw4w9WgXcQ",
+  "tags": ["youtube", "video", "short-url"]
+}
+
+###
+
+### Test Regular URL without tags
+POST http://localhost:4000/api/urls
+Content-Type: application/json
+
+{
+  "url": "https://www.google.com"
+}
+
+###
+
+### Get All URLs
+GET http://localhost:4000/api/urls
+
+###
+
+### Health Check
+GET http://localhost:4000/health 
