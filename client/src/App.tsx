@@ -117,7 +117,7 @@ function App() {
   };
 
   // Fetch URLs from API
-  const fetchUrls = async (isRefresh = false) => {
+  const fetchUrls = useCallback(async (isRefresh = false) => {
     try {
       if (isRefresh) {
         setRefreshing(true);
@@ -141,14 +141,14 @@ function App() {
       setLoading(false);
       setRefreshing(false);
     }
-  };
+  }, [showToast]);
 
   useEffect(() => {
     fetchUrls();
     // Refresh every 30 seconds
     const interval = setInterval(() => fetchUrls(true), 30000);
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchUrls]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -164,10 +164,6 @@ function App() {
     } else {
       return date.toLocaleDateString();
     }
-  };
-
-  const handleRefresh = () => {
-    fetchUrls(true);
   };
 
   if (loading && !refreshing) {

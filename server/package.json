@@ -5,7 +5,14 @@
   "scripts": {
     "build": "tsc",
     "dev": "ts-node src/index.ts",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "pm2:dev": "pm2 start ecosystem.config.js",
+    "pm2:prod": "pm2 start ecosystem.config.js --env production",
+    "pm2:stop": "pm2 stop url-saver-server",
+    "pm2:restart": "pm2 restart url-saver-server",
+    "pm2:delete": "pm2 delete url-saver-server",
+    "pm2:logs": "pm2 logs url-saver-server",
+    "pm2:status": "pm2 status"
   },
   "keywords": [],
   "author": "",
