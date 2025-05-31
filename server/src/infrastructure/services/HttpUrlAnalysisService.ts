@@ -59,7 +59,7 @@ export class HttpUrlAnalysisService implements UrlAnalysisService {
   }
 
   private isThreadsUrl(hostname: string, pathname: string): boolean {
-    return hostname.includes('threads.net');
+    return hostname.includes('threads.com');
   }
 
   private isYouTubeUrl(hostname: string, pathname: string): boolean {

@@ -473,6 +473,10 @@ body {
   display: flex;
   align-items: center;
   gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
+  /* Safari compatibility */
+  -webkit-box-align: center;
+  -webkit-box-pack: start;
 }
 
 .layout-label {
@@ -497,6 +501,9 @@ body {
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border-color);
   gap: var(--spacing-xs);
+  /* Safari compatibility */
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
 }
 
 .layout-btn {
@@ -593,6 +600,8 @@ body {
   justify-content: center;
   align-items: stretch;
   transition: all var(--transition-normal);
+  /* Safari fallback for gap */
+  grid-gap: var(--spacing-xl);
 }
 
 /* Layout specific styles */
@@ -1124,8 +1133,8 @@ body {
   }
 
   .url-grid.layout-comfortable {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
-    gap: var(--spacing-lg);
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: var(--spacing-md);
   }
 
   .url-grid.layout-spacious {
@@ -1394,22 +1403,51 @@ body {
     aspect-ratio: 2;
   }
 
-  /* Optimizations for comfortable mode on small screens */
-  .url-card.layout-comfortable .url-description {
+  /* Optimizations for comfortable mode on small screens - 2 column layout */
+  .url-card.layout-comfortable {
+    min-height: 320px;
+  }
+
+  .url-card.layout-comfortable .url-content {
+    padding: var(--spacing-md);
+  }
+
+  .url-card.layout-comfortable .url-title {
+    font-size: 1rem;
+    margin-bottom: var(--spacing-sm);
     -webkit-line-clamp: 2;
   }
 
+  .url-card.layout-comfortable .url-description {
+    font-size: 0.85rem;
+    -webkit-line-clamp: 2;
+    margin-bottom: var(--spacing-sm);
+  }
+
   .url-card.layout-comfortable .url-actions {
-    flex-direction: row;
+    flex-direction: column;
     gap: var(--spacing-xs);
+  }
+
+  .url-card.layout-comfortable .url-link,
+  .url-card.layout-comfortable .share-btn {
+    padding: var(--spacing-sm);
+    font-size: 0.8rem;
   }
 
   .url-card.layout-comfortable .url-meta {
     flex-direction: column;
     align-items: flex-start;
+    gap: var(--spacing-xs);
+    font-size: 0.75rem;
   }
 
-  .url-card.layout-comfortable .tag:nth-child(n+4) {
+  .url-card.layout-comfortable .tag {
+    font-size: 0.7rem;
+    padding: 2px var(--spacing-xs);
+  }
+
+  .url-card.layout-comfortable .tag:nth-child(n+3) {
     display: none;
   }
 
