@@ -30,6 +30,12 @@ jobs:
         run: |
           cd client
           npm run build
+      - name: Verify Build Output
+        run: |
+          if [ ! -d "client/dist" ]; then
+            echo "Build output directory does not exist!";
+            exit 1;
+          fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
