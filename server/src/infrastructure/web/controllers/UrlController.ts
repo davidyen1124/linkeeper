@@ -22,7 +22,15 @@ export class UrlController {
 
       // Validate tags if provided
       if (tags && !Array.isArray(tags)) {
-        res.status(400).json({ 
+        res.status(400).json({
+          error: 'Invalid tags format',
+          message: 'Tags must be an array of strings'
+        });
+        return;
+      }
+
+      if (Array.isArray(tags) && !tags.every(tag => typeof tag === 'string')) {
+        res.status(400).json({
           error: 'Invalid tags format',
           message: 'Tags must be an array of strings'
         });
