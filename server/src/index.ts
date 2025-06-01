@@ -1,4 +1,5 @@
 import express from 'express';
+import { Server } from 'http';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -15,6 +16,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/url-saver';
+let server: Server;
 
 // Middleware
 app.use(cors());
@@ -45,7 +47,7 @@ mongoose.connect(MONGODB_URI)
     logger.info('Connected to MongoDB successfully');
     
     // Start Express server
-    app.listen(PORT, () => {
+    server = app.listen(PORT, () => {
       logger.info(`Server running on port ${PORT}`);
       logger.info(`Environment: ${process.env.NODE_ENV || 'development'}`);
       
@@ -62,6 +64,38 @@ mongoose.connect(MONGODB_URI)
     logger.error(`MongoDB connection error: ${error.message}`);
     process.exit(1);
   });
+
+const gracefulShutdown = (signal: NodeJS.Signals) => {
+  logger.info(`Received ${signal}. Shutting down gracefully`);
+  if (server) {
+    logger.info('Closing HTTP server');
+    server.close(() => {
+      logger.info('HTTP server closed');
+      mongoose.disconnect()
+        .then(() => {
+          logger.info('Disconnected from MongoDB');
+          process.exit(0);
+        })
+        .catch((err) => {
+          logger.error(`Error during MongoDB disconnect: ${err}`);
+          process.exit(1);
+        });
+    });
+  } else {
+    mongoose.disconnect()
+      .then(() => {
+        logger.info('Disconnected from MongoDB');
+        process.exit(0);
+      })
+      .catch((err) => {
+        logger.error(`Error during MongoDB disconnect: ${err}`);
+        process.exit(1);
+      });
+  }
+};
+
+process.once('SIGINT', () => gracefulShutdown('SIGINT'));
+process.once('SIGTERM', () => gracefulShutdown('SIGTERM'));
 
 // Handle unhandled promise rejections
 process.on('unhandledRejection', (reason, promise) => {
