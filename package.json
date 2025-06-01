@@ -1,0 +1,26 @@
+{
+  "name": "linkeeper",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "start-bot": "ts-node server/src/bot/telegramBot.ts"
+  },
+  "dependencies": {
+    "next": "14.2.3",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "axios": "^1.9.0",
+    "mongoose": "^8.15.0",
+    "telegraf": "^4.16.3",
+    "dotenv": "^16.5.0",
+    "cheerio": "^1.0.0",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "ts-node": "^10.9.2"
+  }
+}

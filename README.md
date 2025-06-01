@@ -26,20 +26,14 @@ When a URL from these platforms is detected, it's automatically tagged with the 
 
 ## 🛠️ Tech Stack
 
-### Backend (Server)
+### Next.js (Full Stack)
 - **TypeScript** - Type-safe JavaScript
-- **Express.js** - Web framework
+- **Next.js** - Unified frontend and API routes
 - **MongoDB** - Database for storing URLs
 - **Telegraf** - Telegram bot framework
 - **Cheerio** - Web scraping for URL metadata
 - **Axios** - HTTP client
-- **Clean Architecture** - Domain-driven design pattern
-
-### Frontend (Client)
-- **React** - UI library
-- **TypeScript** - Type-safe JavaScript
-- **Vite** - Build tool
-- **Axios** - HTTP client for API calls
+- **Clean Architecture** - Domain-driven design pattern for server logic
 
 ## 🚀 Setup Instructions
 
@@ -51,24 +45,19 @@ When a URL from these platforms is detected, it's automatically tagged with the 
 ### 1. Clone and Install Dependencies
 
 ```bash
-# Install server dependencies
-cd server
-npm install
-
-# Install client dependencies
-cd ../client
+# Install dependencies
 npm install
 ```
 
 ### 2. Environment Setup
 
-Create a `.env` file in the `server` directory:
+Create a `.env` file in the project root:
 
 ```env
 TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
 MONGODB_URI=mongodb://localhost:27017/url-saver
-PORT=4000
-API_URL=http://localhost:4000/api/urls
+NEXT_PUBLIC_API_BASE_URL=/api
+PORT=3000
 ```
 
 ### 3. Get Telegram Bot Token
@@ -92,19 +81,17 @@ sudo systemctl start mongod
 
 ### 5. Run the Application
 
-#### Start the Server (Backend + Telegram Bot)
+#### Start the Telegram Bot
 ```bash
-cd server
+npm run start-bot
+```
+
+#### Start the Next.js App
+```bash
 npm run dev
 ```
 
-#### Start the Client (React App)
-```bash
-cd client
-npm run dev
-```
-
-The web interface will be available at `http://localhost:5173`
+The web interface will be available at `http://localhost:3000`
 
 ## 📱 Usage
 
@@ -169,12 +156,11 @@ Returns URLs with source detection and tags:
 │   │   ├── utils/              # Utilities
 │   │   └── index.ts            # Server entry point
 │   └── package.json
-├── client/                     # Frontend application
-│   ├── src/
-│   │   ├── App.tsx            # Main React component with source badges
-│   │   ├── App.css            # Styles with tag and badge support
-│   │   └── main.tsx           # React entry point
-│   └── package.json
+├── app/                       # Next.js application (frontend + API routes)
+│   ├── page.tsx               # Main UI page
+│   ├── layout.tsx             # Root layout
+│   ├── api/urls/route.ts      # API endpoint
+│   └── globals.css            # Styles
 └── README.md
 ```
 
@@ -215,20 +201,12 @@ Use the provided `server/test-api.http` file to test various URL types:
 
 ## 🛠️ Development
 
-### Server Development
+### Development
 ```bash
-cd server
-npm run dev    # Start with hot reload
-npm run build  # Build TypeScript
-npm start      # Start production build
-```
-
-### Client Development
-```bash
-cd client
-npm run dev     # Start development server
-npm run build   # Build for production
-npm run preview # Preview production build
+npm run dev        # Start Next.js in development mode
+npm run build      # Build for production
+npm run start      # Start production build
+npm run start-bot  # Launch Telegram bot
 ```
 
 ## 🔧 Troubleshooting
@@ -237,7 +215,7 @@ npm run preview # Preview production build
 
 1. **Bot not responding**: Check if the bot token is correct and the server is running
 2. **Database connection error**: Ensure MongoDB is running and the connection string is correct
-3. **CORS errors**: Make sure both server and client are running on the specified ports
+3. **CORS errors**: Ensure the Next.js server is running on the expected port
 4. **URL previews not loading**: Some websites may block scraping; this is normal
 5. **Source not detected**: Currently supports Facebook, Instagram, Threads, and YouTube URLs
 
